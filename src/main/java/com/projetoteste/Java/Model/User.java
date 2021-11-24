@@ -1,5 +1,6 @@
 package com.projetoteste.Java.Model;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,8 +10,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 
+
 @Entity
-@Table
+@Table(name = "tb_user")
 public class User {
 
 	private @Id

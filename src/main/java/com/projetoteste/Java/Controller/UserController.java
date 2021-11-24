@@ -22,26 +22,32 @@ import com.projetoteste.Java.Repository.UserRepository;
 
 
 @RestController
-@RequestMapping("/User")
+@RequestMapping("/user")
 @CrossOrigin("*")
 public class UserController {
 	
 	
 	 @Autowired UserRepository repository;
 	
-	@GetMapping
+	@GetMapping("/")
 	public ResponseEntity<List<User>> GetAll(){
-		return ResponseEntity.ok(repository.findAll());
+		List<User> objectUser = repository.findAll();
+		if(objectUser.isEmpty()) {
+			return ResponseEntity.status(204).build();
+		} else {
+			return ResponseEntity.status(200).body(objectUser);
+			
+		}
 	}
-	@GetMapping("/{ID}")
-	public ResponseEntity<User> getById(@PathVariable(value = "ID") Long id_User) {
+	@GetMapping("/{id}")
+	public ResponseEntity<User> getById(@PathVariable(value = "id") Long id_User) {
 			return repository.findById(id_User)
 					.map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
 	}
 	
-	@PostMapping
-	public ResponseEntity<User> newUser (@RequestBody User userName) {
-		return ResponseEntity.status(201).body(userName);
+	@PostMapping("/")
+	public ResponseEntity<User> newUser(@RequestBody User userName) {
+		return ResponseEntity.status(201).body(repository.save(userName));
 	}
 
     @PutMapping("/update")
